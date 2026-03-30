@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
+  labels:
+    app: backend
 spec:
   replicas: 2
   selector:
@@ -14,6 +16,12 @@ spec:
     spec:
       containers:
       - name: backend
-        image: your-dockerhub-username/money-backend
+        image: money-backend:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 5000
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/moneydb"
+        - name: PORT
+          value: "5000"
